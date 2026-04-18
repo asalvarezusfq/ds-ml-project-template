@@ -7,6 +7,10 @@ import urllib.request
 import tarfile
 from pathlib import Path
 
+#housing_url = "https://github.com/ageron/data/raw/main/housing.tgz"
+#housing_path = "data/raw/"
+
+
 def fetch_housing_data(housing_url: str, housing_path: str):
     """
     INSTRUCCIONES:
@@ -17,10 +21,22 @@ def fetch_housing_data(housing_url: str, housing_path: str):
     URL de los datos: "https://github.com/ageron/data/raw/main/housing.tgz"
     Ruta de destino recomendada: "data/raw/"
     """
-    pass
+    # Convertir string a Path
+    housing_path = Path(housing_path)
+    # Comprobar si el directorio existe
+    housing_path.mkdir(parents=True, exist_ok=True)
+    tgz_path = housing_path / "housing.tgz"
+    # Descarga de archivo
+    urllib.request.urlretrieve(housing_url, tgz_path)
+    print(f"Archivo descargado en: {tgz_path}")
+    # Extraer el contenido
+    with tarfile.open(tgz_path) as housing_tgz:
+        housing_tgz.extractall(path=housing_path)
+
+
 
 if __name__ == "__main__":
-    # URL = "https://github.com/ageron/data/raw/main/housing.tgz"
-    # PATH = "data/raw/"
-    # fetch_housing_data(URL, PATH)
+    URL = "https://github.com/ageron/data/raw/main/housing.tgz"
+    PATH = "data/raw/"
+    fetch_housing_data(URL, PATH)
     print("Script para descargar datos... (Falta el código!)")
